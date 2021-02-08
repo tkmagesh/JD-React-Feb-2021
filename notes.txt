@@ -11,3 +11,25 @@ What is React?
             Managing State (M)
 
 
+    Maintainability
+        Easy to CHANGE
+            1. Roles & Responsibilities
+                SRP (Single Responsibility Principle)
+
+            2. 
+
+        Fixing Bugs
+        Adding new features
+        Removing dead features
+        Optimizing existing features
+
+    class Employee {
+        //public int id;
+        private int _id;
+        public void setId(value){
+
+        }
+
+    }
+
+    Reactive (dumb) X Proactive (Knowledge)

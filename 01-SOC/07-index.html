@@ -24,6 +24,7 @@
     <script src="jquery-3.5.1.js"></script>
     <script>
         //State & behavior
+        //Observable
         function SalaryCalculatorModel(){
             //state
             var _data = {
@@ -35,11 +36,11 @@
             };
 
             var _changeCallbacks = {
-                basic: null,
-                hra: null,
-                da: null,
-                tax: null,
-                salary: null
+                basic: [],
+                hra: [],
+                da: [],
+                tax: [],
+                salary: []
             };
 
             this.get = function(attrName){
@@ -49,13 +50,15 @@
             this.set = function(attrName,value){
                 if (_data[attrName] === value) return;
                 _data[attrName] = value;
-                var callback = _changeCallbacks[attrName];
-                if (typeof callback === 'function')
-                    callback();
+                var callbacks = _changeCallbacks[attrName];
+                callbacks.forEach(function(callback){
+                    if (typeof callback === 'function')
+                        callback();
+                });
             };
 
             this.subscribe = function(attrName, callback){
-                _changeCallbacks[attrName] = callback;
+                _changeCallbacks[attrName].push(callback);
             };
         }
 
