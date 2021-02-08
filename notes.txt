@@ -33,3 +33,31 @@ What is React?
     }
 
     Reactive (dumb) X Proactive (Knowledge)
+
+    HTML vs JSX
+    ===============
+    HTML - Only open tags are allowed
+    JSX - Every open tag must have the corresponding close tag
+
+    HTML - 'for' attribute is allowed
+    JSX - use 'htmlFor' instead
+
+    HTML - 'class' attribute is allowed
+    JSX - use 'className' instead
+
+
+ES6 (EcmaScript 6, ES2015, ESNext)
+    1. let
+    2. const
+    3. Array destructuring
+    4. Rest operator (Array)
+    5. Spread operator (Array)
+    6. Object destructuring
+    7. Rest operator (Object)
+    8. Spread operator (Object)
+    9. default arguments
+    10. arrow functions
+    11. template strings
+    12. classes
+
+    
