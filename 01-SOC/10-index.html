@@ -1,0 +1,168 @@
+<!-- salary = basic + hra + da - tax(%) -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salary Calculator</title>
+    <style>
+        body{
+            margin:50px;
+        }
+        .field{
+            margin-bottom: 10px;
+        }
+        label{
+            display : block;
+        }
+        td{
+            padding-right: 10px;
+            font-size: 18pt;
+        }
+
+    </style>
+    <script src="jquery-3.5.1.js"></script>
+    <script>
+        //State & behavior
+        //Observable
+        function SalaryCalculatorModel(){
+            //state
+            var _data = {
+                basic : 0,
+                hra : 0,
+                da : 0,
+                tax : 0,
+                salary : 0
+            };
+
+            var _changeCallbacks = [];
+
+            this.get = function(attrName){
+                return _data[attrName];
+            };
+
+            this.set = function(attrName,value){
+                if (_data[attrName] === value) return;
+                _data[attrName] = value;
+                _changeCallbacks.forEach(function(callback){
+                    if (typeof callback === 'function')
+                        callback();
+                });
+            };
+
+            this.subscribe = function(callback){
+                _changeCallbacks.push(callback);
+            };
+        }
+
+        //behavior
+        SalaryCalculatorModel.prototype.calculate = function(){
+            var gross = this.get('basic') + this.get('hra') + this.get('da'),
+                net = gross * ((100-this.get('tax'))/100);
+            this.set('salary', net);
+        }
+
+
+        //UI
+        function SalaryCalculator(model){
+
+            var $viewEle = this.$viewEle = $('<div>calculator will be rendered here<div>')
+
+            //presentation
+            this.render = function (){
+                var basic = model.get('basic'),
+                    hra = model.get('hra'),
+                    da = model.get('da'),
+                    tax = model.get('tax'),
+                    salary = model.get('salary');
+
+                var template = `
+                    <section>
+                        <div class="field">
+                            <label for="">Basic :</label>
+                            <input type="number" value="${basic}" id="txtBasic">
+                        </div>
+                        <div class="field">
+                            <label for="">HRA :</label>
+                            <input type="text" id="txtHra" value="${hra}">
+                        </div>
+                        <div class="field">
+                            <label for="">DA :</label>
+                            <input type="number" value="${da}" id="txtDa">
+                        </div>
+                        <div class="field">
+                            <label for="">Tax :</label>
+                            <input type="range" value="${tax}" id="rangeTax" min="0" max="30" value="0">
+                        </div>
+                        <div class="field">
+                            <input type="button" value="Calculate" id="btnCalculate">
+                        </div>
+                        <div class="field">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td id="tdBasic">${basic}</td>
+                                        <td id="tdHra">${hra}</td>
+                                        <td id="tdDa">${da}</td>
+                                        <td id="tdTax">${tax}</td>
+                                        <td id="tdSalary">${salary}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                `;
+
+                $viewEle.html(template);
+            }
+
+            //Reacting to user actions
+
+            //binding the event to the viewEle because the textboxes will be created ONLY when the view is rendered
+            $viewEle.on('change', '#txtBasic', function () {
+                model.set('basic', parseInt($(this).val()));
+            });
+
+            $viewEle.on('change', '#txtHra', function () {
+                model.set('hra', parseInt($(this).val()));
+            });
+
+            $viewEle.on('change', '#txtDa', function () {
+                model.set('da', parseInt($(this).val()));
+            });
+
+            $viewEle.on('change', '#rangeTax', function () {
+                model.set('tax', parseInt($(this).val()));
+            });
+
+            $viewEle.on('click', '#btnCalculate', function () {
+                model.calculate();
+            });
+
+            //Reacting to model changes
+            model.subscribe(this.render);
+        }
+        /* $(function(){
+            
+                var model = new SalaryCalculatorModel()
+                var v = new SalaryCalculator(model)
+                var v2 = new SalaryCalculator(model)
+                v.$viewEle.appendTo(document.body)
+                v2.$viewEle.appendTo(document.body)
+                v.render()
+                v2.render()
+
+                model.set('da', 2000)
+                model.set('tax',10)
+            
+
+        }); */
+
+    </script>
+</head>
+<body>
+    <h1>Salary Calculator</h1>
+    <hr>
+    
+</body>
+</html>
