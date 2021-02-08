@@ -118,6 +118,8 @@
             }
 
             //Reacting to user actions
+
+            //binding the event to the viewEle because the textboxes will be created ONLY when the view is rendered
             $viewEle.on('change', '#txtBasic', function () {
                 model.set('basic', parseInt($(this).val()));
             });
@@ -140,6 +142,8 @@
 
             //Reacting to model changes
             model.subscribe('salary', function () {
+
+                //search for the tdSalary INSIDE the viewEle (unlike in the previous implementation where the tdSalary was searched from the whole document)
                 $('#tdSalary', $viewEle).text(model.get('salary'));
             });
 
@@ -168,7 +172,7 @@
                 v2.$viewEle.appendTo(document.body)
                 v.render()
                 v2.render()
-                
+
                 model.set('da', 2000)
                 model.set('tax',10)
             
