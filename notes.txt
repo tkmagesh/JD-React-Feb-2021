@@ -1,0 +1,13 @@
+What is React?
+    Framework for building RIA
+    What is RIA?
+
+    RIA built using HTML + CSS + JS 
+        => SPA (Single Page Application)
+
+        Responsibilities 
+            Handling User Interaction (C)
+            Generating Response (V)
+            Managing State (M)
+
+
