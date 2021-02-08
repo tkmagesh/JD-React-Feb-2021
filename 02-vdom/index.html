@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VDOM demo</title>
+    <script src="react.development.js"></script>
+    <script src="react-dom.development.js"></script>
+    <script>
+        var counter = 0;
+        function onBtnRenderClick(){
+
+            ++counter;
+
+            //Using Actual DOM
+            document.getElementById('spanCounter').innerText = counter;
+
+            //Using Virutal DOM
+            var h1 = React.createElement('h1', { id: 'header-1' }, 'Welcome to React! - ' + counter);
+            ReactDOM.render(h1, document.getElementById('root'));
+
+        }
+        function onDocumentLoad(){
+            var btnRender = document.getElementById('btnRender');
+            btnRender.addEventListener('click', onBtnRenderClick);
+        }
+        window.addEventListener('load', onDocumentLoad);
+
+
+    </script>
+</head>
+<body>
+    <input type="button" value="Render" id="btnRender">
+    <div>
+        <span>Counter :</span>
+        <span id="spanCounter">0</span>
+    </div>
+    <div id="root"></div>
+</body>
+</html>
