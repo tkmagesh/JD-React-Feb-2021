@@ -19,47 +19,148 @@
             padding-right: 10px;
             font-size: 18pt;
         }
-
+        .goodSalary{
+            color : green;
+        }
+        .poorSalary{
+            color : red;
+        }
     </style>
-    
+    <script src="babel.min.js"></script>
+    <script src="react.development.js"></script>
+    <script src="react-dom.development.js"></script>
+    <script type="text/babel">
+        function SalaryCalculatorModel() {
+                //state
+                var _data = {
+                    basic: 0,
+                    hra: 0,
+                    da: 0,
+                    tax: 0,
+                    salary: 0
+                };
+
+                var _changeCallbacks = [];
+
+                this.get = function (attrName) {
+                    return _data[attrName];
+                };
+
+                this.set = function (attrName, value) {
+                    if (_data[attrName] === value) return;
+                    _data[attrName] = value;
+                    _changeCallbacks.forEach(function (callback) {
+                        if (typeof callback === 'function')
+                            callback();
+                    });
+                };
+
+                this.subscribe = function (callback) {
+                    _changeCallbacks.push(callback);
+                };
+            }
+
+        //behavior
+        SalaryCalculatorModel.prototype.calculate = function () {
+            var gross = this.get('basic') + this.get('hra') + this.get('da'),
+                net = gross * ((100 - this.get('tax')) / 100);
+            this.set('salary', net);
+        }
+
+        class SalaryCalculator extends React.Component{
+
+            onTxtBasicChange = (evt) => {
+                this.props.model.set('basic', parseInt(evt.target.value))
+            };
+
+            render(){
+                const { model } = this.props;
+                const basic = model.get('basic'),
+                    hra = model.get('hra'),
+                    da = model.get('da'),
+                    tax = model.get('tax'),
+                    salary = model.get('salary');
+
+                //const salaryEle = salary >= 10000 ? (<td className="goodSalary">{salary}</td>) : (<td className="poorSalary">{salary}</td>);
+
+                const salaryStyle = salary >= 10000 ? 'goodSalary' : 'poorSalary',
+                    salaryEle = (<td className={salaryStyle}>{salary}</td>);
+
+                return(
+                    <section>
+                        <div className="field">
+                            <label htmlFor="">Basic :</label>
+                            <input type="number" 
+                                value={basic} 
+                                onChange={this.onTxtBasicChange} 
+                            />
+                        </div>
+                        <div className="field">
+                            <label htmlFor="">HRA :</label>
+                            <input 
+                                type="number" 
+                                value={hra} 
+                                onChange={ evt => model.set('hra', parseInt(evt.target.value)) }  
+                            />
+                        </div>
+                        <div className="field">
+                            <label htmlFor="">DA :</label>
+                            <input 
+                                type="number" 
+                                value={da}  
+                                onChange={evt => model.set('da', parseInt(evt.target.value))}
+                            />
+                        </div>
+                        <div className="field">
+                            <label htmlFor="">Tax :</label>
+                            <input 
+                                type="range"  
+                                min="0" 
+                                max="30" 
+                                onChange={evt => model.set('tax', parseInt(evt.target.value))} 
+                                value={tax}
+                            />
+                        </div>
+                        <div className="field">
+                            <input 
+                                type="button" 
+                                value="Calculate"  
+                                onClick={ () => model.calculate() } 
+                            />
+                        </div>
+                        <div className="field">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td>{basic}</td>
+                                        <td>{hra}</td>
+                                        <td>{da}</td>
+                                        <td>{tax}</td>
+                                        {salaryEle}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                )
+            }
+        }
+        const model = new SalaryCalculatorModel();
+
+        function renderApp(){
+            ReactDOM.render(
+                <SalaryCalculator model={model}/>
+                , document.getElementById('root')
+            );
+        }
+        renderApp();
+        model.subscribe(renderApp);
+    </script>
     
 </head>
 <body>
     <h1>Salary Calculator</h1>
     <hr>
-    <section>
-        <div class="field">
-            <label for="">Basic :</label>
-            <input type="number" name="" id="txtBasic">
-        </div>
-        <div class="field">
-            <label for="">HRA :</label>
-            <input type="text" id="txtHra">
-        </div>
-        <div class="field">
-            <label for="">DA :</label>
-            <input type="number" name="" id="txtDa">
-        </div>
-        <div class="field">
-            <label for="">Tax :</label>
-            <input type="range" name="" id="rangeTax" min="0" max="30" >
-        </div>
-        <div class="field">
-            <input type="button" value="Calculate" id="btnCalculate">
-        </div>
-        <div class="field">
-            <table>
-                <tbody>
-                    <tr>
-                        <td id="tdBasic">[Basic]</td>
-                        <td id="tdHra">[HRA]</td>
-                        <td id="tdDa">[DA]</td>
-                        <td id="tdTax">[Tax]</td>
-                        <td id="tdSalary">[Salary]</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </section>
+    <div id="root"></div>
 </body>
 </html>
