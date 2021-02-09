@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+    <style>
+        body{
+            margin : 50px;
+        }
+
+        #root > h1{
+            color : blue;
+        }
+
+    </style>
+    <script src="babel.min.js"></script>
+    <script src="react.development.js"></script>
+    <script src="react-dom.development.js"></script>
+    <script type="text/babel">
+        const Products = () => {
+            const [newProductName, setNewProductName] = React.useState('');
+            const [productNames, setProductNames] = React.useState([]);
+
+            const productItems = productNames.map(
+                (productName, index) => (
+                    <li key={index}>
+                        <span>
+                            {productName}
+                        </span>
+                        <input type="button" value="Remove" onClick={() => setProductNames(productNames.filter(p => p !== productName))} />
+                    </li>
+                )
+            );
+            return (
+                <React.Fragment>
+                    <h1>Products</h1>
+                    <hr />
+                    <div>
+                        <span> Count : </span>
+                        <span> {productNames.length} </span>
+                    </div>
+                    <label htmlFor="">Product Name : </label>
+                    <input type="text" onChange={evt => setNewProductName(evt.target.value)} />
+                    <input type="button" value="Add New" onClick={() => setProductNames([...productNames, newProductName])} />
+                    <ul>
+                        {productItems}
+                    </ul>
+                </React.Fragment>
+            )
+        }
+        ReactDOM.render(<Products/>, document.getElementById('root'))
+    </script>
+</head>
+<body>
+    <div id="root">
+       
+    </div>
+</body>
+</html>
