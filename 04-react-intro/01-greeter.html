@@ -49,10 +49,11 @@
                 )
             }
         }
+        const value = 200;
         ReactDOM.render(
             /* React.createElement(Greeter) */
             <div>
-                <Greeter msgTemplate="Have a good day!"/>
+                <Greeter msgTemplate="Have a good day!" x="100" y={value}/>
                 <Greeter msgTemplate="Have a nice day!"/>
             </div>,
             document.getElementById('root')
