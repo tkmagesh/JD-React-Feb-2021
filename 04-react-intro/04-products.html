@@ -28,6 +28,11 @@
                     newProductNames = [...productNames, newProductName ];
                 this.setState({ productNames : newProductNames });
             }
+            removeProduct(productName){
+                const { productNames } = this.state,
+                    updatedProductNames = productNames.filter(p => p !== productName );
+                this.setState({ productNames : updatedProductNames });
+            }
             render(){
                 const { productNames } = this.state;
                 const productItems = productNames.map(
@@ -36,17 +41,17 @@
                             <span>
                                 {productName}
                             </span>
-                            <input type="button" value="Remove" />
+                            <input type="button" value="Remove" onClick={ () => this.removeProduct(productName) } />
                         </li>
                     )
-                )
+                );
                 return(
                     <React.Fragment>
                         <h1>Products</h1>
                         <hr/>
                         <div>
                             <span> Count : </span>
-                            <span> 0 </span>
+                            <span> {productNames.length} </span>
                         </div>
                         <label htmlFor="">Product Name : </label>
                         <input type="text" onChange={ evt => this.setState({ newProductName : evt.target.value }) }/>
