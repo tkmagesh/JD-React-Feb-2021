@@ -28,7 +28,11 @@
                         <span>
                             {productName}
                         </span>
-                        <input type="button" value="Remove" onClick={() => setProductNames(productNames.filter(p => p !== productName))} />
+                        <input 
+                            type="button" 
+                            value="Remove" 
+                            onClick={() => setProductNames(productNames.filter(p => p !== productName))} 
+                        />
                     </li>
                 )
             );
