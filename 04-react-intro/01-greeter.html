@@ -26,7 +26,8 @@
 
             //UI Behavior
             onBtnGreetClick = (evt) => {
-                const msg = `Hi ${this.state.userName}, Have a nice day!`;
+                //const msg = `Hi ${this.state.userName}, Have a nice day!`;
+                const msg = 'Hi ' + this.state.userName + ', ' + this.props.msgTemplate;
                 this.setState({ message : msg});
             }
 
@@ -50,7 +51,10 @@
         }
         ReactDOM.render(
             /* React.createElement(Greeter) */
-            <Greeter/>, 
+            <div>
+                <Greeter msgTemplate="Have a good day!"/>
+                <Greeter msgTemplate="Have a nice day!"/>
+            </div>,
             document.getElementById('root')
         )
     </script>
