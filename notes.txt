@@ -60,4 +60,11 @@ ES6 (EcmaScript 6, ES2015, ESNext)
     11. template strings
     12. classes
 
-    
+
+In React
+    Component = encapsulation of Presentation (JSX) + UI Behavior + UI State
+              = Reusable
+              = composable
+              = SRP
+              
+    Application = composition of components
