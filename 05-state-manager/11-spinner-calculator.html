@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spinner</title>
+    <script src="redux.js"></script>
+    <script src="babel.min.js"></script>
+    <script src="react.development.js"></script>
+    <script src="react-dom.development.js"></script>
+    <!-- 
+        01. initial version
+        02. remove the dependency on the store in the component
+        03. introducing 'action creators'
+        04. simplify passing the 'action creators' to the component
+        05. introducing 'spinner action dispatchers'
+        06. generalizing the 'bindActionCreators'
+        07. refactor 'bindActionCreators' to 'state-manager.js'
+        08. introducing 'payload' in actions
+        09. replacing 'StateManager' with 'Redux'
+        11. creating 'combineReducers' (in  state-manager.js) to support multiple reducers
+     -->
+    <script type="text/babel">
+
+        //reducers
+        function spinnerReducer(currentState = 0, action) {
+            if (action.type === 'INCREMENT') return currentState + action.payload;
+            if (action.type === 'DECREMENT') return currentState - action.payload;
+            return currentState;
+        }
+
+        function calculatorReducer(currentState = 0, action) {
+            if (action.type === 'ADD') return action.payload.n1 + action.payload.n2;
+            if (action.type === 'SUBTRACT') return action.payload.n1 - action.payload.n2;
+            if (action.type === 'MULTIPLY') return action.payload.n1 * action.payload.n2;
+            if (action.type === 'DIVIDE') return action.payload.n1 / action.payload.n2;
+            return currentState;
+        }
+
+        //Components
+        const Spinner = ({value, increment, decrement}) => {
+            const [delta, setDelta] = React.useState(0);
+            return (
+                <React.Fragment>
+                    <h3>Spinner</h3>
+                    <label>Delta :</label>
+                    <input type="number" onChange={ evt => setDelta(parseInt(evt.target.value))} />
+                    <br/>
+                    <input type="button" value="Decrement" onClick={ () => decrement(delta)} />
+                    <span> [ {value} ] </span>
+                    <input type="button" value="Increment" onClick={ () => increment(delta)} />
+                </React.Fragment>
+            );
+        };
+
+        const Calculator = ({ value, add, subtract, multiply, divide }) => {
+            const [n1, setN1] = React.useState(0),
+                [n2, setN2] = React.useState(0);
+
+            return (
+                <React.Fragment>
+                    <h3>Calculator</h3>
+                    <input type="number" onChange={evt => setN1(parseInt(evt.target.value))} />
+                    <input type="number" onChange={evt => setN2(parseInt(evt.target.value))} />
+                    <br />
+                    <input type="button" value="Add" onClick={() => add(n1, n2)} />
+                    <input type="button" value="Subtract" onClick={() => subtract(n1, n2)} />
+                    <input type="button" value="Multiply" onClick={() => multiply(n1, n2)} />
+                    <input type="button" value="Divide" onClick={() => divide(n1, n2)} />
+                    <div>{value}</div>
+                </React.Fragment>
+            )
+        }
+
+        //Action Creators
+
+        const spinnerActionCreators = {
+            increment(delta){
+                const action = { type: 'INCREMENT', payload : delta };
+                return action;
+            },
+            decrement(delta){
+                const action = { type: 'DECREMENT', payload : delta };
+                return action;
+            }
+        };
+
+        const calculatorActionCreators = {
+            add(n1, n2) {
+                return { type: 'ADD', payload: { n1: n1, n2: n2 } };
+            },
+            subtract(n1, n2) {
+                return { type: 'SUBTRACT', payload: { n1: n1, n2: n2 } };
+            },
+            multiply(n1, n2) {
+                return { type: 'MULTIPLY', payload: { n1: n1, n2: n2 } };
+            },
+            divide(n1, n2) {
+                return { type: 'DIVIDE', payload: { n1: n1, n2: n2 } };
+            },
+        };
+
+        //Store
+        const rootReducer = Redux.combineReducers({
+            spinnerState : spinnerReducer,
+            calculatorState : calculatorReducer
+        });
+
+        const store = Redux.createStore(rootReducer);
+
+        //Action Dispatchers
+        const spinnerActionDispatchers = Redux.bindActionCreators(spinnerActionCreators, store.dispatch);
+        const calculatorActionDispatchers = Redux.bindActionCreators(calculatorActionCreators, store.dispatch);
+        
+        function renderSpinner(){
+            const storeState = store.getState(),
+                 spinnerValue = storeState.spinnerState,
+                 calculatorValue = storeState.calculatorState;
+            ReactDOM.render(
+                <div>
+                    <Spinner value={spinnerValue} {...spinnerActionDispatchers} />
+                    <Calculator value={calculatorValue} {...calculatorActionDispatchers}/>
+                </div>
+                , document.getElementById('root')
+            );
+        }
+        renderSpinner();
+        store.subscribe(renderSpinner);
+    </script>
+</head>
+<body>
+    <h1>My App</h1>
+    <hr>
+    <div id="root"></div>
+</body>
+</html>
