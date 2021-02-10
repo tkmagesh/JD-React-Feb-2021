@@ -10,6 +10,7 @@
     <script src="react-dom.development.js"></script>
     <!-- 
         01. initial version
+        02. remove the dependency on the store in the component
 
      -->
     <script type="text/babel">
@@ -20,22 +21,23 @@
             return currentState;
         }
 
-        const Spinner = ({store}) => {
+        const Spinner = ({value, dispatch}) => {
             const inc_action = { type: 'INCREMENT' },
                 dec_action = { type: 'DECREMENT' };
             return (
                 <React.Fragment>
-                    <input type="button" value="Decrement" onClick={ () => store.dispatch(dec_action)} />
-                    <span> [{store.getState()}] </span>
-                    <input type="button" value="Increment" onClick={ () => store.dispatch(inc_action)} />
+                    <input type="button" value="Decrement" onClick={ () => dispatch(dec_action)} />
+                    <span> [ {value} ] </span>
+                    <input type="button" value="Increment" onClick={ () => dispatch(inc_action)} />
                 </React.Fragment>
             );
         };
 
         const store = StateManager.createStore(spinnerReducer);
         function renderSpinner(){
+            const value = store.getState();
             ReactDOM.render(
-                <Spinner store={store}/>
+                <Spinner value={value} dispatch={store.dispatch}/>
                 , document.getElementById('root')
             );
         }
