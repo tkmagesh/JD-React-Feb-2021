@@ -1,7 +1,8 @@
 let StateManager = (function(){
     let _currentState = undefined,
         _callbacks = [],
-        _reducer = undefined;
+        _reducer = undefined,
+        _init_action = { type : '@@INIT/Action' };
 
     function getState(){
         return _currentState;
@@ -25,11 +26,15 @@ let StateManager = (function(){
     }
 
     function createStore(reducer){
+        if (typeof reducer !== 'function')
+            throw new Error('Reducer function is mandatory to create the store..!');
         _reducer = reducer;
+        _currentState = reducer(undefined, _init_action);
         const store = { getState, subscribe, dispatch };
         return store;
     }
 
     return { createStore };
+
 })();
 
