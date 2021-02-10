@@ -68,3 +68,17 @@ In React
               = SRP
 
     Application = composition of components
+
+React Hooks
+    Functions using which functional components can have
+        - state
+        - life cycle events
+        etc
+    Hook function names have to start with 'use'
+    Builtin Hooks
+        useState
+        useEffect
+        useReducer
+        useMemo
+        useCallback
+    
