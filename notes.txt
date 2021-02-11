@@ -126,4 +126,17 @@ To install redux
     OR
     npm install redux
 
-    
+
+Redux middleware
+    where we can write any logic that is common across all the actions
+
+
+To serve data from a json file
+    From the folder that has the data json file
+        npx json-server db.json -p 3030
+
+
+Projects Module (Assignment)
+    implement the following only
+        1. Adding new project (id, name, desc)
+        2. List the projects
