@@ -79,16 +79,18 @@
                 </div>
             );
 
-           
+           const App = () => (
+               <div>
+                   <ProductsCount data={productsList.length} />
+                   <Products list={productsList} {...productActionDispatchers} />
+               </div>
+           )
 
             function renderApp(){
                 console.log('rendering app');
                 const productsList = store.getState();
                 ReactDOM.render(
-                    <div>
-                        <ProductsCount data={productsList.length} />
-                        <Products list={productsList} {...productActionDispatchers}/>
-                    </div>
+                    <App/>
                     , document.getElementById('root'))
             }
             renderApp();
