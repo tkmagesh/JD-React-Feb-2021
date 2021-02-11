@@ -45,7 +45,8 @@ let StateManager = (function(){
         const initialState = Object.keys(state)
             .reduce((result, key) => ({ ...result, [key]: state[key](undefined, _init_action) }), {});
         return function rootReducer(currentState = initialState, action){
-            return Object.keys(state).reduce((result, key) => ({ ...result, [key]: state[key](currentState[key], action) }), {})
+            return Object.keys(state)
+                .reduce((result, key) => ({ ...result, [key]: state[key](currentState[key], action) }), {})
         }
     }
 

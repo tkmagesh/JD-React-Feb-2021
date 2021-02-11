@@ -82,3 +82,15 @@ React Hooks
         useMemo
         useCallback
     
+
+    State
+        UI logic
+            Feel free to keep the data in the component state
+            It is very unlikely that this data might be needed outside the component
+
+        App logic
+            It is very likely that this data might be needed in other parts of the application
+            Dont maintain this in the component state (keep this outside the component)
+
+            Flux Architecture
+            Redux

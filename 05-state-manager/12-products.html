@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+    <script src="state-manager.js"></script>
+    <script src="react.development.js"></script>
+    <script src="react-dom.development.js"></script>
+    <script src="babel.min.js"></script>
+    <script type="text/babel">
+        /* IMPORTANT : currentState should be treated as immutable */
+        function productsReducer(currentState=[], action){
+            if (action.type === 'ADD_PRODUCT'){
+                const newState = [...currentState, action.payload];
+                return newState;
+            }
+            if (action.type === 'REMOVE_PRODUCT'){
+                const newState = currentState.filter(product => product !== action.payload);
+                return newState;
+            }
+            return currentState;
+        }
+
+        const productActionCreators = { 
+            add(newProductName){
+                const action = { type : 'ADD_PRODUCT', payload : newProductName };
+                return action;
+            },
+            remove(productName){
+                const action = { type : 'REMOVE_PRODUCT', payload : productName };
+                return action;
+            }
+        }
+
+        const store = StateManager.createStore(productsReducer);
+        const productActionDispatchers = StateManager.bindActionCreators(productActionCreators, store.dispatch);
+
+        const Products = ({ list, add, remove }) => {
+                const [newProductName, setNewProductName] = React.useState('');
+
+                const onAddNewClick = () => {
+                    add(newProductName);
+                }
+
+                const productItems = list.map(
+                    (productName, index) => (
+                        <li key={index}>
+                            <span>
+                                {productName}
+                            </span>
+                            <input
+                                type="button"
+                                value="Remove"
+                                onClick={() => remove(productName)}
+                            />
+                        </li>
+                    )
+                );
+                return (
+                    <React.Fragment>
+                        <h1>Products</h1>
+                        <hr />
+                        <label htmlFor="">Product Name : </label>
+                        <input type="text" onChange={evt => setNewProductName(evt.target.value)} />
+                        <input type="button" value="Add New" onClick={onAddNewClick} />
+                        <ul>
+                            {productItems}
+                        </ul>
+                    </React.Fragment>
+                )
+            }
+
+            const ProductsCount = ({ data }) => (
+                <div>
+                    <span> Count : </span>
+                    <span> {data} </span>
+                </div>
+            );
+
+           
+
+            function renderApp(){
+                console.log('rendering app');
+                const productsList = store.getState();
+                ReactDOM.render(
+                    <div>
+                        <ProductsCount data={productsList.length} />
+                        <Products list={productsList} {...productActionDispatchers}/>
+                    </div>
+                    , document.getElementById('root'))
+            }
+            renderApp();
+            store.subscribe(renderApp);
+
+    </script>
+</head>
+<body>
+    <div id="root">
+
+
+    </div>
+</body>
+</html>
