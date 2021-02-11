@@ -1,4 +1,8 @@
 export function remove(bugToRemove){
-    const action = { type : 'REMOVE_BUG', payload : bugToRemove};
-    return action;
+    return function(storeState){
+        const bugs = storeState;
+        const updatedBugs = bugs.filter(bug => bug.id !== bugToRemove.id)
+        const action = { type : 'INIT_BUG', payload : updatedBugs};
+        return action;
+    }
 }
