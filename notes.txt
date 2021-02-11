@@ -93,3 +93,18 @@ React Hooks
 
             Flux Architecture
             Redux
+
+    create-react-app
+    npm, yarn
+
+    to install yarn
+        [sudo] npm install yarn -g
+
+    go the folder where you want to create the application
+    npx create-react-app bug-tracker-app
+
+
+ES6 Modules
+    - Everything defined in a js file is considered private to that file
+    - Any public entity has to be explicity 'exported'
+    - Any public entity from other js files have to explicitly 'imported' to use
