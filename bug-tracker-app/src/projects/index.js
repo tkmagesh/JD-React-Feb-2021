@@ -6,7 +6,7 @@ import './index.css';
 import * as projectActionCreators from './actions';
 import * as sharedActionCreators from '../shared/actions';
 
-const Projects = ({projects, load, setSelectedProject, setFilterBugs, selectedProject }) => {
+const Projects = ({projects, load, filterBugs, setSelectedProject, setFilterBugs, selectedProject }) => {
     
     useEffect(() => {
         load();
@@ -24,7 +24,11 @@ const Projects = ({projects, load, setSelectedProject, setFilterBugs, selectedPr
             <hr/>
              <div>
                 <label>Filter Bugs :</label>
-                <input type="checkbox" onChange={ evt => setFilterBugs(evt.target.checked) }/>
+                <input 
+                    checked={filterBugs ? true : false }
+                    type="checkbox" 
+                    onChange={ evt => setFilterBugs(evt.target.checked) }
+                />
             </div>
             {/* <input type="button" value="Load" onClick={load} /> */}
             <ol>
@@ -36,7 +40,7 @@ const Projects = ({projects, load, setSelectedProject, setFilterBugs, selectedPr
 
 function mapStateToProps(storeState){
     const { projects, filterBugs } = storeState;
-    return { projects : projects, selectedProject : filterBugs.selectedProject };
+    return { projects : projects, selectedProject : filterBugs.selectedProject, filterBugs : filterBugs.filterBugs };
 }
 
 function mapDispatchToProps(dispatch){
