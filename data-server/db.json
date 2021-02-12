@@ -6,20 +6,6 @@
       "isClosed": false,
       "projectId": 1,
       "createdAt": "2021-02-12T10:32:09.778Z"
-    },
-    {
-      "id": 2,
-      "name": "Bug - 2",
-      "isClosed": false,
-      "projectId": 1,
-      "createdAt": "2021-02-12T10:32:12.339Z"
-    },
-    {
-      "id": 3,
-      "name": "Bug - 3",
-      "isClosed": false,
-      "projectId": 2,
-      "createdAt": "2021-02-12T10:34:56.402Z"
     }
   ],
   "projects": [
