@@ -1,28 +1,45 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 
 import BugTracker from './bugs'
 import Projects from './projects';
+import Home from './home';
 
 import store from './store';
 
-import axios from 'axios';
 import TimerContainer from './timer';
 
     
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <h1>Bug Tracker</h1>
-      <TimerContainer/>
-      <hr/>
-      <Projects />
-      <BugTracker />
-    </Provider>
+    <Router>
+      <Provider store={store}>
+        <h1>Bug Tracker</h1>
+        <TimerContainer/>
+        <div>
+          <span> [ <Link to="/">Home</Link> ] </span>
+          <span> [ <Link to="/bugs">Bugs</Link> ] </span>
+          <span> [ <Link to="/projects">Projects</Link> ] </span>
+        </div>
+        <hr/>
+        <Switch>
+          <Route path="/bugs">
+            <BugTracker/>
+          </Route>
+          <Route path="/projects">
+            <Projects/>
+          </Route>
+          <Route path="/">
+            <Home/>
+          </Route>
+        </Switch>
+      </Provider>
+    </Router>
   </React.StrictMode>,
   document.getElementById('root')
 );

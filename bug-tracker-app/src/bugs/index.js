@@ -12,6 +12,7 @@ import BugList from './components/bugList';
 
 import * as bugActionCreators from './actions';
 
+//Container / Smart component
 const BugTracker = ({bugs, addNew, toggle, remove, removeClosed, projects, load }) => {
     useEffect(() => {
         load();
@@ -20,6 +21,7 @@ const BugTracker = ({bugs, addNew, toggle, remove, removeClosed, projects, load 
         <Fragment>
             <h3>Bugs</h3>
             {/* <input type="button" value="Load Bugs" onClick={load} /> */}
+            {/* Presentation / Dumb components */}
             <BugStats bugs={bugs} />
             <BugEdit addNew={addNew} projects={projects} />
             <BugSort/>
