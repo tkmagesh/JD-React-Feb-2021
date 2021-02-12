@@ -156,3 +156,7 @@ Assignment #1
 
 Assignment #2
     When the user selects a project in the 'Projects' component, display ONLY the bugs belonging that project
+
+Async Operation
+    An operation that will complete sometime in future and we dont wait for its completion
+    

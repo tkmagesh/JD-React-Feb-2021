@@ -18,17 +18,15 @@ const loggerMiddleware = store => next => action => {
     console.groupEnd();
 };
 
-const stateMiddleware = store => next => action => {
+const asyncMiddleware = store => next => action => {
     if (typeof action === 'function'){
-        const storeState = store.getState();
-        const actionObj = action(storeState);
-        store.dispatch(actionObj);
+        return action(store.dispatch, store.getState);
     } else {
-        next(action);
+        return next(action);
     }
 }
 
-const store = createStore(rootReducer, applyMiddleware(loggerMiddleware, stateMiddleware));
+const store = createStore(rootReducer, applyMiddleware(loggerMiddleware, asyncMiddleware));
 
 window['store'] = store;
 
