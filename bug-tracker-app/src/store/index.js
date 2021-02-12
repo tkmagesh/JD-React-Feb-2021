@@ -26,7 +26,15 @@ const asyncMiddleware = store => next => action => {
     }
 }
 
-const store = createStore(rootReducer, applyMiddleware(loggerMiddleware, asyncMiddleware));
+const promiseMiddleware = store => next => action => {
+    if (action instanceof Promise){
+        action.then(actionObj => store.dispatch(actionObj));
+    } else {
+        return next(action);
+    }
+}
+
+const store = createStore(rootReducer, applyMiddleware(loggerMiddleware, asyncMiddleware, promiseMiddleware));
 
 window['store'] = store;
 

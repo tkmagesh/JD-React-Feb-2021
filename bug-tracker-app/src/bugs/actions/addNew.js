@@ -1,6 +1,7 @@
 import * as bugApi from '../services/bugApi';
 
-export function addNew(newBugName, projectId){
+//using asyncMiddleware
+/* export function addNew(newBugName, projectId){
     return function(dispatch){
         const newBugData = {
             id : 0,
@@ -17,4 +18,18 @@ export function addNew(newBugName, projectId){
             })
         
     }
+} */
+
+//using promiseMiddleware
+export async function addNew(newBugName, projectId){
+    const newBugData = {
+        id : 0,
+        name : newBugName,
+        isClosed : false,
+        projectId : projectId,
+        createdAt : new Date()
+    };
+    const newBug = await bugApi.save(newBugData);
+    const action = { type : 'ADD_BUG', payload : newBug };
+    return action; 
 }

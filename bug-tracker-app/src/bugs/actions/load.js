@@ -27,20 +27,9 @@ function getRemoteBugs() /* returning a promise */{
         });
 }
 
+//using asyncMiddleware
+/* 
 export function load(){
-    /* 
-    const bugs = getLocalBugs();
-    const action = { type : 'INIT_BUG', payload : bugs };
-    return action; 
-    */
-    /* return function(dispatch){
-        const p = getRemoteBugs();
-        return p.then(function(bugs){
-            const action = { type : 'INIT_BUG', payload : bugs };
-            dispatch(action);
-        });
-    } */
-
     return function(dispatch){
         bugApi
             .getAll()
@@ -49,6 +38,16 @@ export function load(){
                 dispatch(action);
             })
 
-    }
-    
-}
+    }  
+} 
+*/
+
+//using the promiseMiddleware
+export function load(){
+    return bugApi
+        .getAll()
+        .then(function(bugs){
+            const action = { type : 'INIT_BUG', payload : bugs };
+            return action;
+        })
+}  
