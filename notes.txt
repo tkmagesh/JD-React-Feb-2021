@@ -140,3 +140,11 @@ Projects Module (Assignment)
     implement the following only
         1. Adding new project (id, name, desc)
         2. List the projects
+
+react-redux
+    yarn add react-redux
+    connect
+        encapsulates the logic for extracting state (mapStateToProps), creating action dispatchers (mapDispatchToProps) & pass them as props to the component
+        
+    Provider
+        Will make the state & dispatch available to the connected component
