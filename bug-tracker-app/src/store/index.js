@@ -1,10 +1,12 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import bugsReducer from '../reducers/bugsReducer';
 import projectsReducer from '../reducers/projectsReducer';
+import filterBugsReducer from '../reducers/filterBugsReducer';
 
 const rootReducer = combineReducers({
     bugs : bugsReducer,
-    projects : projectsReducer
+    projects : projectsReducer,
+    filterBugs : filterBugsReducer
 });
 
 
@@ -27,5 +29,8 @@ const stateMiddleware = store => next => action => {
 }
 
 const store = createStore(rootReducer, applyMiddleware(loggerMiddleware, stateMiddleware));
+
+window['store'] = store;
+
 export default store;
 

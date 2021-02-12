@@ -10,12 +10,12 @@ import BugList from './components/bugList';
 
 import * as bugActionCreators from './actions';
 
-const BugTracker = ({bugs, addNew, toggle, remove, removeClosed }) => {
+const BugTracker = ({bugs, addNew, toggle, remove, removeClosed, projects }) => {
     return(
         <Fragment>
             <h3>Bugs</h3>
             <BugStats bugs={bugs} />
-            <BugEdit addNew={addNew} />
+            <BugEdit addNew={addNew} projects={projects} />
             <BugSort/>
             <BugList { ...{bugs, toggle, remove, removeClosed}} />
         </Fragment>
@@ -23,8 +23,13 @@ const BugTracker = ({bugs, addNew, toggle, remove, removeClosed }) => {
 };
 
 function mapStateToProps(storeState){
-    const bugs = storeState.bugs;
-    return { bugs : bugs };
+    const bugs = storeState.bugs,
+        projects = storeState.projects,
+        filterBugs = storeState.filterBugs;
+    return { 
+        bugs : filterBugs.filterBugs ? bugs.filter(bug => bug.projectId === filterBugs.selectedProject) : bugs, 
+        projects : projects
+    };
 }
 
 function mapDispatchToProps(dispatch){

@@ -148,3 +148,11 @@ react-redux
         
     Provider
         Will make the state & dispatch available to the connected component
+
+
+Assignment #1
+    Populate the projects data in the dropdown box in 'bugEdit' component
+    The bug created must have a 'projectId' attribute with the selected project
+
+Assignment #2
+    When the user selects a project in the 'Projects' component, display ONLY the bugs belonging that project
