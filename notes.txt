@@ -160,3 +160,18 @@ Assignment #2
 Async Operation
     An operation that will complete sometime in future and we dont wait for its completion
     
+Life cycle events
+    componentWillMount
+    componentDidMount
+    componentShouldUpdate
+    render
+    componentWillUnmount
+
+    class MyComponent extends React.Component{
+        render(){
+
+        }
+    }
+
+    useEffect
+        - to handle lifecycle events in functional components

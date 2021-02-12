@@ -11,12 +11,14 @@ import Projects from './projects';
 import store from './store';
 
 import axios from 'axios';
-window['axios'] = axios;
+import TimerContainer from './timer';
+
     
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <h1>Bug Tracker</h1>
+      <TimerContainer/>
       <hr/>
       <Projects />
       <BugTracker />
