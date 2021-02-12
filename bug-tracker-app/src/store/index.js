@@ -1,13 +1,5 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux';
-import bugsReducer from '../reducers/bugsReducer';
-import projectsReducer from '../reducers/projectsReducer';
-import filterBugsReducer from '../reducers/filterBugsReducer';
-
-const rootReducer = combineReducers({
-    bugs : bugsReducer,
-    projects : projectsReducer,
-    filterBugs : filterBugsReducer
-});
+import rootReducer from '../reducers';
 
 
 const loggerMiddleware = store => next => action => {
