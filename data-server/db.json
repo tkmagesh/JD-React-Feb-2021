@@ -3,7 +3,7 @@
     {
       "id": 1,
       "name": "Bug - 1",
-      "isClosed": false,
+      "isClosed": true,
       "projectId": 1,
       "createdAt": "2021-02-12T10:32:09.778Z"
     }
